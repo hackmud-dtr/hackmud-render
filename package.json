@@ -1,0 +1,10 @@
+{
+  "name": "hackmud-render",
+  "version": "1.0.0",
+  "description": "node-canvas based hackmud-output renderer",
+  "author": "dtr",
+  "license": "CC0-1.0",
+  "dependencies":{
+	"node-canvas": "latest"
+  }
+}
