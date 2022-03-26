@@ -5,7 +5,7 @@
 // usage:
 // var HR=require('hackmud-render.js');
 // HR.init('/path/to/whiterabbit.ttf');
-// //                                    script      args                result    config options
+// //                                       script      args                result    config options
 // var buffer=HR.renderHackmudScriptOutput('chats.send',{to:"dtr",msg:"hi"},{ok:true},{hardline:true}); // returns a buffer in image/png format by default
 // require('fs').writeFileSync('render.png',buffer);
 
