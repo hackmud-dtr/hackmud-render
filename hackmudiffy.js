@@ -1,5 +1,7 @@
 "use strict";
 
+// license: CC0
+
 function _formatHackmudArgs(args,allow_scriptor=true) { // leading space, no traling space
 	if(Array.isArray(args)) {
 		var s=' [';
