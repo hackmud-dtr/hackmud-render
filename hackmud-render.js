@@ -383,8 +383,8 @@ function renderHackmudScriptOutput(script,args,output,config={}) {
 		var a=config.seenUsernames;
 		config.seenUsernames={}
 		config.usernameInd=0;
-		for(var i=0;i<config.seenUsernames;++i) {
-			getUsernameColor(config.seenUsernames[i]);
+		for(var i=0;i<a.length;++i) {
+			getUsernameColor(config,a[i]);
 		}
 	}
 	else {
