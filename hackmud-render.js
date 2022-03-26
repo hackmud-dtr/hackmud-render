@@ -83,10 +83,10 @@ var ZERO_WIDTH_CHARS=/[\u200b\r]/g; // regex to match any chars that are meant t
 
 var COLOR_REGEXES={ // mostly taken from decompiled client and cleaned up a little, a few small changes made to simplify but not a ton
 	startCurrencyRegex  :  /^(-)?(?:(\d{1,5})Q)?(?:(\d{1,3})T)?(?:(\d{1,3})B)?(?:(\d{1,3})M)?(?:(\d{1,3})K)?(?:(\d{1,3}))?GC(\W)/g,
-    insideCurrencyRegex : /\W(-)?(?:(\d{1,5})Q)?(?:(\d{1,3})T)?(?:(\d{1,3})B)?(?:(\d{1,3})M)?(?:(\d{1,3})K)?(?:(\d{1,3}))?GC(\W)/g,
-    dateRegex           : /(\d{1,4})AD D(\d{1,3})/g,
-    trustCommunication  : /:::TRUST COMMUNICATION:::/g,
-    trustScriptRegex    : /(#s\.|[^#\.a-z0-9_]|^)(trust|accts|autos|scripts|users|sys|corps|chats|gui|escrow|market|kernel|binmat)\.([a-z_][a-z0-9_]*)/g,
+	insideCurrencyRegex : /\W(-)?(?:(\d{1,5})Q)?(?:(\d{1,3})T)?(?:(\d{1,3})B)?(?:(\d{1,3})M)?(?:(\d{1,3})K)?(?:(\d{1,3}))?GC(\W)/g,
+	dateRegex           : /(\d{1,4})AD D(\d{1,3})/g,
+	trustCommunication  : /:::TRUST COMMUNICATION:::/g,
+	trustScriptRegex    : /(#s\.|[^#\.a-z0-9_]|^)(trust|accts|autos|scripts|users|sys|corps|chats|gui|escrow|market|kernel|binmat)\.([a-z_][a-z0-9_]*)/g,
 	scriptRegex         : /(#s\.|[^#\.a-z0-9_]|^)([a-z_][a-z0-9_]*)\.([a-z_][a-z0-9_]*)/g,
 	keyValueSuggestRegex: /((?:(?:"(?:[^"\n]|\.)+")|(?:[a-zA-z_]\w*))[\t ]{0,2}):([\t ]{0,2}(?:(?:È[^É]+É)|(?:"È(?:[^"É\n]|\.)*É")))/g,
 	keyValueRegex       : /((?:(?:"(?:[^"\n]|\.)+")|(?:[a-zA-z_]\w*))[\t ]{0,2}):([\t ]{0,2}(?:(?:true)|(?:false)|(?:null)|(?:"(?:[^"\n]|\.)*")|(?:-?\d+\.?\d*)|\{|\[|#s\.[a-z_][a-z0-9_]*\.[a-z_][a-z0-9_]*))/g,
