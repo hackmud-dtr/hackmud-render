@@ -37,3 +37,29 @@ require('fs').writeFileSync('render.png',buffer); // save the file
   - The format of the image buffer to return
 * `debugRendering`: boolean; default false
   - If true, draws a box around each color span (or, in blockMode, character).
+
+## using with discord.js bots
+
+If you use discord.js for bots, it's easy to send the buffer as an attachment.
+Here is roughly the code I use for /hackmud-render with risk:
+
+```js
+// assume command is some sort of object dealing with the command that was run
+// msg is a discord.js message object
+
+var buf=HR.renderHackmudScriptOutput(
+	command.script,
+	command.args,
+	command.output,
+	{
+		hardline:command.hardline,
+		maxWidth:125,
+		blockMode:true,
+		seenUsernames:['farmer_john'],
+		imageFormat:"image/png",
+		debugRendering:false
+	}
+)
+
+msg.reply({files:[{attachment:buf,name:"hackmud-render.png"}]})
+```
