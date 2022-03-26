@@ -345,8 +345,8 @@ function drawText(config,color,text,chPos,line) {
 		config.ctx.fillStyle=config.colors[color];
 		config.ctx.fillText(text,chPos*config.em_width,(line+1)*config.em_height)
 		if(config.debugRendering) {
-			ctx.strokeStyle=config.colors[color];
-			ctx.strokeRect(chPos*config.em_width,line*config.em_height,text.length*config.em_width-1,config.em_height)
+			config.ctx.strokeStyle=config.colors[color];
+			config.ctx.strokeRect(chPos*config.em_width,line*config.em_height,text.length*config.em_width-1,config.em_height)
 		}
 }
 
