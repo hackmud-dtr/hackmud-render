@@ -2,7 +2,7 @@
 
 // license: CC0
 
-function _formatHackmudArgs(args,allow_scriptor=true) { // leading space, no traling space
+function _formatHackmudArgs(args,allowScriptor=true) { // leading space, no trailing space
 	if(Array.isArray(args)) {
 		var s=' [';
 		for(var i=0;i<args.length;++i) {
@@ -15,7 +15,7 @@ function _formatHackmudArgs(args,allow_scriptor=true) { // leading space, no tra
 	}
 	if(typeof args=='object') {
 		if(!args)return ' null';
-		if(Object.keys(args).length==1 && typeof args.__scriptor=='string' &&  /^[a-z_][a-z_0-9]*\.[a-z_][a-z_0-9]*$/.test(args.__scriptor)) {
+		if(allowScriptor && Object.keys(args).length==1 && typeof args.__scriptor=='string' &&  /^[a-z_][a-z_0-9]*\.[a-z_][a-z_0-9]*$/.test(args.__scriptor)) {
 			return ' #s.'+args.__scriptor;
 		}
 		var s=' {';
@@ -43,8 +43,9 @@ function formatHackmudArgs(script,args) {
 	var ret='>>'+script;
 
 	if(args) {
-		ret+=_formatHackmudArgs(args,false);
+		ret+=_formatHackmudArgs(args,false); // false to stop top-level scriptor expansion; recursive calls will expand.
 	}
+
 	return ret;
 }
 
@@ -70,6 +71,8 @@ function _formatHackmudOutput(s,handleOKs) {
 	if(s===null || s===undefined)return '';
 	return s.toString();
 }
+
+// handleOKs: whether {ok:true} (and friends) should render as Success/Failure (true), or as objects (false).
 function formatHackmudOutput(s,handleOKs) {
 	return _formatHackmudOutput(s,handleOKs).replace(/\t/g,'  ');
 }
