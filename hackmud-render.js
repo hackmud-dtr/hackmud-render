@@ -414,8 +414,6 @@ function renderHackmudScriptOutput(script,args,output,config={}) {
 			if(res.colors[i].length==0)continue;
 			for(var j=0;j<res.colors[i].length;++j) {
 				drawText(config,res.colors[i][j],res.chars[i][j],j,i);
-				last=j;
-				c=res.colors[i][j];
 			}
 		}
 	}
