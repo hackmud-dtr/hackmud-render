@@ -55,14 +55,14 @@ function formatHackmudArgs(script,args) {
 function _formatHackmudOutput(s,handleOKs) {
 	if(typeof s=='string')return s;
 	if(Array.isArray(s))
-		return s.map(o=>formatHackmudOutput(o,false)).join('\n');
+		return s.map(o=>_formatHackmudOutput(o,false)).join('\n');
 	if(typeof s=='object' && s!==null) {
 		if(handleOKs && typeof s.ok=='boolean') {
 			var k=Object.keys(s);
-			if(k.length>2 || (k.length==2 && !('msg' in s)))return formatHackmudOutput(s,false);
+			if(k.length>2 || (k.length==2 && !('msg' in s)))return _formatHackmudOutput(s,false);
 			var pre=s.ok===true?'`LSuccess`':'`DFailure`';
 			if(s.msg)
-				pre+='\n'+formatHackmudOutput(s.msg);
+				pre+='\n'+_formatHackmudOutput(s.msg);
 			return pre;
 		}
 		s=JSON.stringify(s,0,2).replace(/^( *)"([a-z0-9A-Z_]+)":/gm,'$1$2:')
