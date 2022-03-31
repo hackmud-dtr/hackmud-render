@@ -25,7 +25,7 @@ require('fs').writeFileSync('render.png',buffer); // save the file
   - If true, use the hardline colors (note: these colors are very approximate)
 * `maxWidth`: positive integer; default 150
   - How many characters wide to render.
-  - Output rendering will be the maximum of the specified width, or the longest line present.
+  - Output rendering will be the minimum of the specified width, or the longest line present.
   - Any lines longer than `maxWidth` are hard-wrapped like in-game.
 * `blockMode`: boolean; default true
   - If true, render each character individually with 1 pixel of space between to reproduce the spacing in-game.
