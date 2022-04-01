@@ -44,6 +44,8 @@ require('fs').writeFileSync('render.png',buffer); // save the file
   - If `true` or the string `"game"`, equivalent to passing `6`
   - If the string `"forums"`, equivalent to passing `-6`.
   - Anything else is ignored
+* `bloom`: integer
+  - Clamped/floored to an integer between 0 and 11. Approximates in-game bloom with text shadows (very badly).
 
 ## using with discord.js bots
 

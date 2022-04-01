@@ -351,12 +351,34 @@ function cleanArrayOfCHars(a,config) {
 	return a.join('').replace(/«/g,'`'/*my copy of the font doesn't work*/).split('\n').flatMap(o=>o.match(new RegExp('.{1,'+config.maxWidth+'}','g'))||o)
 }
 
-function drawText(config,color,text,chPos,line) {
-		config.ctx.fillStyle=config.colors[color];
-		config.ctx.fillText(text,chPos*config.em_width,(line+1)*config.em_height)
-		if(config.debugRendering) {
-			config.ctx.strokeStyle=config.colors[color];
-			config.ctx.strokeRect(chPos*config.em_width,line*config.em_height,text.length*config.em_width-1,config.em_height)
+function drawText(config,color,text,chPos,line,bloom) {
+		if(bloom) {
+			var alp=config.ctx.globalAlpha;
+			config.ctx.globalAlpha=0.05*config.bloom/10
+			config.ctx.shadowBlur=2
+			config.ctx.fillStyle='transparent';//config.colors[color];
+			config.ctx.shadowColor=config.colors[color];
+
+			for(var x=-1.5;x<=1.5;x+=0.5)
+				for(var y=-1.5;y<=1.5;y+=0.5) {
+					config.ctx.shadowOffsetX=x*2
+					config.ctx.shadowOffsetY=y*2
+					config.ctx.fillText(text,chPos*config.em_width,(line+1)*config.em_height)
+				}
+
+			config.ctx.shadowBlur=0;
+			config.ctx.shadowOffsetX=0;
+			config.ctx.shadowOffsetY=0;
+			config.ctx.shadowColor='transparent'
+			config.ctx.globalAlpha=alp;
+		}
+		else {
+			config.ctx.fillStyle=config.colors[color];
+			config.ctx.fillText(text,chPos*config.em_width,(line+1)*config.em_height)
+			if(config.debugRendering) {
+				config.ctx.strokeStyle=config.colors[color];
+				config.ctx.strokeRect(chPos*config.em_width,line*config.em_height,text.length*config.em_width-1,config.em_height)
+			}
 		}
 }
 
@@ -378,7 +400,8 @@ function renderHackmudScriptOutput(script,args,output,config={}) {
 		seenUsernames:[], // can be an array, in which case the usernames are assigned colors in order, *or* a object of {username:"color code"} pairs
 		imageFormat:"image/png",
 		debugRendering:false,
-		scan:false
+		scan:false,
+		bloom:0
 	},config);
 	// other things get added to config; don't try to override them.
 
@@ -408,6 +431,12 @@ function renderHackmudScriptOutput(script,args,output,config={}) {
 			config.scanStrength=Math.floor(config.scanStrength)
 			if(config.scanStrength>11)config.scanStrength=11;
 		}
+	}
+	if(config.bloom) {
+		if(typeof config.bloom!="number")delete config.bloom;
+		config.bloom=Math.floor(config.bloom)
+		if(config.bloom > 11)config.bloom=11;
+		if(config.bloom <=0)delete config.bloom;
 	}
 
 	config.em_height=EM_HEIGHT;
@@ -443,28 +472,34 @@ function renderHackmudScriptOutput(script,args,output,config={}) {
 
 	prepCanvas(config,width,height);
 
-	if(config.blockMode) {
-		for(var i=0;i<res.chars.length;++i) {
-			if(res.colors[i].length==0)continue;
-			for(var j=0;j<res.colors[i].length;++j) {
-				drawText(config,res.colors[i][j],res.chars[i][j],j,i);
+	function drawInternal(bloom) {
+		if(config.blockMode) {
+			for(var i=0;i<res.chars.length;++i) {
+				if(res.colors[i].length==0)continue;
+				for(var j=0;j<res.colors[i].length;++j) {
+					drawText(config,res.colors[i][j],res.chars[i][j],j,i,bloom);
+				}
+			}
+		}
+		else {
+			for(var i=0;i<res.chars.length;++i) {
+				if(res.colors[i].length==0)continue;
+				var c=res.colors[i][0]
+				var last=0;
+				for(var j=1;j<res.colors[i].length;++j) {
+					if(res.colors[i][j]==c)continue;
+					drawText(config,c,res.chars[i].substring(last,j),last,i,bloom);
+					last=j;
+					c=res.colors[i][j];
+				}
+				drawText(config,c,res.chars[i].substring(last,j),last,i,bloom);
 			}
 		}
 	}
-	else {
-		for(var i=0;i<res.chars.length;++i) {
-			if(res.colors[i].length==0)continue;
-			var c=res.colors[i][0]
-			var last=0;
-			for(var j=1;j<res.colors[i].length;++j) {
-				if(res.colors[i][j]==c)continue;
-				drawText(config,c,res.chars[i].substring(last,j),last,i);
-				last=j;
-				c=res.colors[i][j];
-			}
-			drawText(config,c,res.chars[i].substring(last,j),last,i);
-		}
-	}
+
+	if(config.bloom)
+		drawInternal(config.bloom);
+	drawInternal(false)
 
 
 
