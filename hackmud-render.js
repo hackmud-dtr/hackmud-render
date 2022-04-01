@@ -106,6 +106,16 @@ function prepCanvas(config,width,height) {
 	ctx.font='28px WhiteRabbit';
 	ctx.fillStyle=config.colors.z
 	ctx.fillRect(0,0,width+32,height+28);
+
+	if(config.scanMode=='forums') {
+		var normalAlpha=config.scanStrength/11
+		ctx.fillStyle=config.hardline?'#350200':'#0e0e0e';
+		for(var i=0;i<height+28;i+=13) {
+			ctx.fillRect(0,i+2,width+32,6);
+		}
+	}
+
+	ctx.save();
 	ctx.fillStyle=config.colors.S;
 	ctx.translate(16,9)
 
@@ -367,7 +377,8 @@ function renderHackmudScriptOutput(script,args,output,config={}) {
 		blockMode:true, // if true, render characters individually to preserve the hackmuddy line-gap-between-blocks, if false, don't (will make output narrower),
 		seenUsernames:[], // can be an array, in which case the usernames are assigned colors in order, *or* a object of {username:"color code"} pairs
 		imageFormat:"image/png",
-		debugRendering:false
+		debugRendering:false,
+		scan:false
 	},config);
 	// other things get added to config; don't try to override them.
 
@@ -375,6 +386,29 @@ function renderHackmudScriptOutput(script,args,output,config={}) {
 		config.colors=HARDLINE_COLORS;
 	else
 		config.colors=NORMAL_COLORS;
+
+	if(config.scan) {
+		if(config.scan===true || config.scan=="game") {
+			config.scanMode='game'
+			config.scanStrength=6;
+		}
+		else if(config.scan=="forums") {
+			config.scanMode='forums'
+			config.scanStrength=6;
+		}
+		else if(typeof config.scan=='number') {
+			if(config.scan > 0) {
+				config.scanMode='game';
+				config.scanStrength=config.scan;
+			}
+			else if(config.scan < 0) {
+				config.scanMode='forums';
+				config.scanStrength=-config.scan;
+			}
+			config.scanStrength=Math.floor(config.scanStrength)
+			if(config.scanStrength>11)config.scanStrength=11;
+		}
+	}
 
 	config.em_height=EM_HEIGHT;
 	config.em_width=config.blockMode?EM_WIDTH+1:EM_WIDTH;
@@ -432,6 +466,36 @@ function renderHackmudScriptOutput(script,args,output,config={}) {
 		}
 	}
 
+
+
+	if(config.scanMode=='game') {
+		config.ctx.restore();
+		var normalAlpha=config.scanStrength/11;
+		config.ctx.globalCompositeOperation='soft-light';
+		config.ctx.fillStyle=config.hardline?'#350200':'#0e0e0e';
+		for(var i=0;i<height+28;i+=13) {
+			config.ctx.globalAlpha=normalAlpha/4;
+			config.ctx.fillRect(0,i,width+32,1);
+
+			config.ctx.globalAlpha=normalAlpha/2;
+			config.ctx.fillRect(0,i+1,width+32,1);
+
+			config.ctx.globalAlpha=3*normalAlpha/4;
+			config.ctx.fillRect(0,i+2,width+32,1);
+
+			config.ctx.globalAlpha=normalAlpha;
+			config.ctx.fillRect(0,i+3,width+32,3);
+
+			config.ctx.globalAlpha=3*normalAlpha/4;
+			config.ctx.fillRect(0,i+6,width+32,1);
+
+			config.ctx.globalAlpha=normalAlpha/2;
+			config.ctx.fillRect(0,i+7,width+32,1);
+
+			config.ctx.globalAlpha=normalAlpha/4;
+			config.ctx.fillRect(0,i+8,width+32,1);
+		}
+	}
 
 	return config.canvas.toBuffer(config.imageFormat);
 

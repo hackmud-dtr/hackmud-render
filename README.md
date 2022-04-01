@@ -28,15 +28,22 @@ require('fs').writeFileSync('render.png',buffer); // save the file
   - Output rendering will be the minimum of the specified width, or the longest line present.
   - Any lines longer than `maxWidth` are hard-wrapped like in-game.
 * `blockMode`: boolean; default true
-  - If true, render each character individually with 1 pixel of space between to reproduce the spacing in-game.
-  - If false, render blocks of text together (slightly narrower).
+  - If `true`, render each character individually with 1 pixel of space between to reproduce the spacing in-game.
+  - If `false`, render blocks of text together (slightly narrower).
 * `seenUsernames`: array or object; default []
   - If an array, taken to be an array of usernames that have already been seen, in order; they will be assigned colors appropriately.
-  - If an object, it should consist of {username:"color code"} pairs.
+  - If an object, it should consist of `{username:"color code"}` pairs.
 * `imageFormat`: string (mime type); default "image/png"
   - The format of the image buffer to return
 * `debugRendering`: boolean; default false
-  - If true, draws a box around each color span (or, in blockMode, character).
+  - If true, draws a box around each color span (or, in `blockMode`, character).
+* `scan`: boolean, number, or string; default false
+  - If a positive number, clamped/floored to an integer between 1 and 11, used as an approximate gui.vfx setting for game-style (soft, over-text) scanlines
+  - If a negative number, negated, then clamped/floored to an integer between 1 and 11, used as an approximate gui.vfx setting for forums-style (hard, under-text) scanlines
+  - If `0` or `false`, no scanlines drawn
+  - If `true` or the string `"game"`, equivalent to passing `6`
+  - If the string `"forums"`, equivalent to passing `-6`.
+  - Anything else is ignored
 
 ## using with discord.js bots
 
