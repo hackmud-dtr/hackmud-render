@@ -354,13 +354,13 @@ function cleanArrayOfCHars(a,config) {
 function drawText(config,color,text,chPos,line,bloom) {
 		if(bloom) {
 			var alp=config.ctx.globalAlpha;
-			config.ctx.globalAlpha=0.05*config.bloom/10
+			config.ctx.globalAlpha=0.1*config.bloom/10
 			config.ctx.shadowBlur=2
 			config.ctx.fillStyle='transparent';//config.colors[color];
 			config.ctx.shadowColor=config.colors[color];
 
-			for(var x=-1.5;x<=1.5;x+=0.5)
-				for(var y=-1.5;y<=1.5;y+=0.5) {
+			for(var x=-1.5;x<=1.5;++x)
+				for(var y=-1.5;y<=1.5;++y) {
 					config.ctx.shadowOffsetX=x*2
 					config.ctx.shadowOffsetY=y*2
 					config.ctx.fillText(text,chPos*config.em_width,(line+1)*config.em_height)
