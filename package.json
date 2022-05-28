@@ -5,6 +5,6 @@
   "author": "dtr",
   "license": "CC0-1.0",
   "dependencies":{
-	"node-canvas": "latest"
+	"canvas": "latest"
   }
 }

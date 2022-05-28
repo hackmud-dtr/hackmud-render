@@ -10,7 +10,7 @@
 // require('fs').writeFileSync('render.png',buffer);
 
 
-var CANVAS=require('node-canvas');
+var CANVAS=require('canvas');
 var HACKMUDIFFY=require('./hackmudiffy.js')
 
 
