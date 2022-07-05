@@ -274,7 +274,9 @@ function colorMap(line,config) {
 	L++;
 
 	for(var it of line.matchAll(COLOR_REGEXES.colorMapRegex)) {
-		line=PATCH(line,it)
+		// only mark the color codes used
+		line=line.substring(0,it.index)+'%%'+line.substring(it.index+2,it.index+it[0].length-1)+'%'+line.substring(it.index+it[0].length); // only mark the : as used
+//		line=PATCH(line,it)
 		colorRange(layers[L],it.index,it[0].length,it[1],'V');
 		for(var j=2;j<it[0].length-1;++j) {
 			if(chars[it.index+j]==' ' && layers[L][it.index+j]==it[1])
