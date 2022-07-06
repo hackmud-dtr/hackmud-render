@@ -241,7 +241,7 @@ function colorMap(line,config) {
 		if(chars[it.index]=='`')
 			layers[L][it.index]=' ';
 	}
-	layers[L].lowPriorityFill=true;
+//	layers[L].lowPriorityFill=true;
 	L++;
 
 	for(var it of line.matchAll(COLOR_REGEXES.keyValueRegex)) {
@@ -251,7 +251,7 @@ function colorMap(line,config) {
 		if(chars[it.index]=='`')
 			layers[L][it.index]=' ';
 	}
-	layers[L].lowPriorityFill=true;
+//	layers[L].lowPriorityFill=true;
 	L++;
 
 	for(var it of line.matchAll(COLOR_REGEXES.sectorRegex)) {
